@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head><title>CertForge - Create Certificate</title></head>
+<body>
+<h2>Create Certificate</h2>
+<form action="/generate" method="post">
+Name: <input name="name"><br>
+Email: <input name="email"><br>
+Type:
+<select name="type">
+  <option>personal</option>
+  <option>business</option>
+  <option>code-sign</option>
+</select><br>
+Password (optional): <input name="password" type="password"><br>
+<input type="submit" value="Generate">
+</form>
+</body>
+</html>
