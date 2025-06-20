@@ -1,0 +1,33 @@
+name: 🔐 Cert Automation Lint & Check
+
+on: [push, pull_request]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: ⬇️ Checkout code
+      uses: actions/checkout@v3
+
+    - name: ⚙️ Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: 📦 Cache pip packages
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+
+    - name: 🧪 Install dependencies
+      run: pip install -r extensions/cert_dashboard/requirements.txt
+
+    - name: 🔍 Python Lint (cert_dashboard)
+      run: flake8 extensions/cert_dashboard/
+
+    - name: 🗓️ Certificate Expiry Check
+      run: |
+        echo "Running cert expiry check..."
+        python -c "from extensions.cert_dashboard.cert_status import check_cert_status; check_cert_status('certs/DeviceCert.cer')"
