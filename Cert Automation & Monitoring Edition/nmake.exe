@@ -1,2 +1,0 @@
-nmake /f Makefile.win install
-nmake /f Makefile.win dashboard
