@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+cryptography
+python-multipart
+qrcode
+jinja2
+python-jose
+passlib
+email-validator
+sqlite3
