@@ -1,0 +1,19 @@
+version: '3'
+
+tasks:
+  install:
+    cmds:
+      - pip install -r requirements.txt
+
+  dev:
+    cmds:
+      - pip install -r requirements-dev.txt
+
+  dashboard:
+    dir: extensions/cert_dashboard
+    cmds:
+      - streamlit run app.py
+
+  cert:
+    cmds:
+      - powershell -ExecutionPolicy Bypass -File extensions/cert_automation/auto_cert.ps1

@@ -1,0 +1,23 @@
+#!/bin/bash
+
+echo "🔍 Running pre-commit checks..."
+
+# Python lint (if flake8 installed)
+if command -v flake8 &> /dev/null; then
+  echo "🧪 Python linting..."
+  flake8 --exclude=venv,env,.venv,extensions/cert_dashboard/__pycache__
+fi
+
+# PowerShell lint (requires PSScriptAnalyzer)
+if command -v pwsh &> /dev/null && pwsh -Command "Get-Module -ListAvailable PSScriptAnalyzer" > /dev/null; then
+  echo "🧪 PowerShell linting..."
+  pwsh -Command "Invoke-ScriptAnalyzer -Path ./extensions/cert_automation/*.ps1"
+fi
+
+# Secret scan (basic check)
+if grep -r -E "Wdp@1234|BEGIN PRIVATE KEY|Password\s*=" . --exclude-dir={.git,venv,env,.venv,logs,node_modules} ; then
+  echo "❌ Warning: Possible secrets found! Please verify before committing."
+  exit 1
+fi
+
+echo "✅ All checks passed."
