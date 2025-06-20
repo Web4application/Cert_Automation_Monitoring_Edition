@@ -1,10 +1,13 @@
+# Core orchestration and backend dependencies
+openai
+requests
+httpx
+python-dotenv
+PyGithub
 fastapi
 uvicorn
 cryptography
-python-multipart
-qrcode
-jinja2
-python-jose
-passlib
-email-validator
-sqlite3
+pip install .
+# or with optional extras:
+pip install .[dev]
+pip install .[dashboard]
