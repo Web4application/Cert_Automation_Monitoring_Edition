@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head><title>CertForge Admin</title></head>
+<body>
+<h2>Certificate Logs</h2>
+<table border="1">
+<tr><th>ID</th><th>Name</th><th>Email</th><th>Type</th><th>File</th><th>Date</th></tr>
+{% for row in certs %}
+<tr>
+<td>{{ row[0] }}</td><td>{{ row[1] }}</td><td>{{ row[2] }}</td><td>{{ row[3] }}</td>
+<td><a href="/{{ row[4] }}">Download</a></td><td>{{ row[5] }}</td>
+</tr>
+{% endfor %}
+</table>
+</body>
+</html>
