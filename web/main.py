@@ -1,4 +1,3 @@
-
 from fastapi import FastAPI, Form
 from fastapi.responses import HTMLResponse, FileResponse
 from cert_core import generate_certificate, export_certificate
@@ -9,7 +8,8 @@ app = FastAPI()
 @app.get("/", response_class=HTMLResponse)
 async def form():
     return '''
-    <html><body>
+    <html>
+        <body>
     <h2>Universal Certificate Generator</h2>
     <form action="/generate" method="post">
     Name: <input name="name"><br>
