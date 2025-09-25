@@ -1,0 +1,20 @@
+{
+  "analytics.web4.com": {
+    "db_name": "analytics_db",
+    "db_user": "web4_user",
+    "smtp_host": "smtp.mail.com",
+    "smtp_user": "user@mail.com",
+    "smtp_pass": "password",
+    "ssl_expiry": "2025-10-25",
+    "ssl_valid": true
+  },
+  "reports.web4.com": {
+    "db_name": "reports_db",
+    "db_user": "web4_user",
+    "smtp_host": "smtp.mail.com",
+    "smtp_user": "user@mail.com",
+    "smtp_pass": "password",
+    "ssl_expiry": "2025-11-01",
+    "ssl_valid": true
+  }
+}
