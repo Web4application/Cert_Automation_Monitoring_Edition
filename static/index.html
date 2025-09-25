@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WEB4 Analytics Cockpit</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+<header>
+    <h1>WEB4 Analytics Operational Cockpit</h1>
+</header>
+
+<div id="alerts"></div>
+
+<div class="cards-container">
+{% for domain, info in panels.items() %}
+    <div class="panel-card">
+        <h2>{{ domain }}</h2>
+        <div class="status-row">
+            <span class="badge {% if info.ssl_expiry_date %}
+                {% if info.ssl_expiry_date <= now + timedelta(days=7) %}ssl-danger
+                {% elif info.ssl_expiry_date <= now + timedelta(days=30) %}ssl-warning
+                {% else %}ssl-valid{% endif %}
+            {% else %}ssl-invalid{% endif %}">
+                SSL: {% if info.ssl_valid %}Valid{% else %}Invalid{% endif %} | Expiry: {{ info.ssl_expiry }}
+            </span>
+            <span class="badge {% if info.container_running %}running{% else %}stopped{% endif %}">
+                Status: {% if info.container_running %}Running{% else %}Stopped{% endif %}
+            </span>
+        </div>
+        <p><strong>DB:</strong> {{ info.db_name }} / {{ info.db_user }}</p>
+        <p><strong>SMTP:</strong> {{ info.smtp_host }} / {{ info.smtp_user }}</p>
+        <div class="actions">
+            <button onclick="control('{{ domain }}','start')">Start</button>
+            <button onclick="control('{{ domain }}','stop')">Stop</button>
+            <button onclick="control('{{ domain }}','restart')">Restart</button>
+            <button onclick="showLogs('{{ domain }}')">Logs</button>
+            <button onclick="testEmail('{{ domain }}')">Email Test</button>
+        </div>
+    </div>
+{% endfor %}
+</div>
+
+<div id="logs"></div>
+
+<script src="/static/js/main.js"></script>
+<script>
+function loadAlerts() {
+    fetch('/alerts')
+    .then(res => res.json())
+    .then(data => {
+        const container = document.getElementById("alerts");
+        container.innerHTML = data.alerts.length > 0 ? data.alerts.join("<br>") : "✅ No alerts";
+    });
+}
+loadAlerts();
+setInterval(loadAlerts, 60000);
+
+function refreshDashboard() {
+    fetch('/')
+    .then(res => res.text())
+    .then(html => {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+        const newCards = doc.querySelector('.cards-container');
+        document.querySelector('.cards-container').innerHTML = newCards.innerHTML;
+        loadAlerts();
+    });
+}
+setInterval(refreshDashboard, 30000);
+</script>
+</body>
+</html>
