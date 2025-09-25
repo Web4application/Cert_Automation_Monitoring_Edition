@@ -1,3 +1,27 @@
+version: '3.8'
+
+services:
+  dashboard:
+    build: ./dashboard
+    container_name: web4_dashboard
+    ports:
+      - "9000:8000"
+    volumes:
+      - ./dashboard/panels.json:/app/panels.json
+      - ./dashboard/templates:/app/templates
+      - ./dashboard/static:/app/static
+    depends_on:
+      - cert_automation
+    command: uvicorn main:app --host 0.0.0.0 --port 8000
+
+  cert_automation:
+    build: ./cert_automation
+    container_name: cert_automation
+    ports:
+      - "5000:5000"
+    # Depends on your Cert_Automation_Monitoring_Edition Dockerfile/config
+    restart: always
+
 version: '3'
 services:
   certforge:
