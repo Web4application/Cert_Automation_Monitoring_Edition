@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WEB4 Analytics Operational Cockpit</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+<h1>WEB4 Analytics Operational Cockpit</h1>
+<table border="1">
+    <tr>
+        <th>Domain</th>
+        <th>DB Name</th>
+        <th>DB User</th>
+        <th>SMTP</th>
+        <th>SSL Expiry</th>
+        <th>Actions</th>
+        <th>Logs</th>
+        <th>Email Test</th>
+    </tr>
+    {% for domain, info in panels.items() %}
+    <tr>
+        <td>{{ domain }}</td>
+        <td>{{ info.db_name }}</td>
+        <td>{{ info.db_user }}</td>
+        <td>{{ info.smtp_host }} / {{ info.smtp_user }}</td>
+        <td>{{ info.ssl_expiry }}</td>
+        <td>
+            <button onclick="control('{{ domain }}','start')">Start</button>
+            <button onclick="control('{{ domain }}','stop')">Stop</button>
+            <button onclick="control('{{ domain }}','restart')">Restart</button>
+        </td>
+        <td><button onclick="showLogs('{{ domain }}')">View Logs</button></td>
+        <td><button onclick="testEmail('{{ domain }}')">Send Test Email</button></td>
+    </tr>
+    {% endfor %}
+</table>
+<div id="logs" style="white-space: pre-wrap; background: #eee; padding: 10px;"></div>
+<script src="/static/js/main.js"></script>
+</body>
+</html>
